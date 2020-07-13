@@ -437,13 +437,11 @@ public class MapsActivity extends AppCompatActivity implements OnMapReadyCallbac
         }
 
         if(nearestMarker != null){
-            nearestMarker.setIcon(BitmapDescriptorFactory.fromResource(R.drawable.marker_selected));
             final Marker finalNearestMarker = nearestMarker;
             AlertDialog.Builder deleteDialog = new AlertDialog.Builder(this);
-
             deleteDialog
                     .setTitle("Delete?")
-                    .setMessage("Would you like to delete the marker in red?")
+                    .setMessage("Would you like to remove the marker?")
 
                     // Specifying a listener allows you to take an action before dismissing the dialog.
                     // The dialog is automatically dismissed when a dialog button is clicked.
