@@ -77,7 +77,7 @@ public class MapsActivity extends AppCompatActivity implements OnMapReadyCallbac
 
         Paint textPaint = new Paint();
 
-        textPaint.setTextSize(48);
+        textPaint.setTextSize(50);
         textPaint.setColor(Color.argb(100, 0, 0, 0));
         float textWidth = textPaint.measureText(text);
         float textHeight = textPaint.getTextSize();
@@ -136,7 +136,7 @@ public class MapsActivity extends AppCompatActivity implements OnMapReadyCallbac
         mMap.setOnMarkerClickListener(new GoogleMap.OnMarkerClickListener() {
             @Override
             public boolean onMarkerClick(Marker marker) {
-                System.out.println("marker Clicked"+marker.isInfoWindowShown());
+                System.out.println("clicked"+marker.isInfoWindowShown());
                 if(marker.isInfoWindowShown()){
                     marker.hideInfoWindow();
                 }
@@ -249,20 +249,17 @@ public class MapsActivity extends AppCompatActivity implements OnMapReadyCallbac
             }
             if(titleString.isEmpty())
             {
-                titleString.add("Unknown Location");
+                titleString.add("New Place");
             }
             if(address.getLocality() != null)
             {
                 snippetString.add(address.getLocality());
-
             }
             if(address.getAdminArea() != null)
             {
                 snippetString.add(address.getAdminArea());
             }
-
         }
-
         title = TextUtils.join(", ",titleString);
         title = (title.equals("") ? "  " : title);
 
@@ -298,7 +295,7 @@ public class MapsActivity extends AppCompatActivity implements OnMapReadyCallbac
             break;
         }
 
-        LatLng labelLatLng = new LatLng(latLng.latitude - 0.55,latLng.longitude);
+        LatLng labelLatLng = new LatLng(latLng.latitude - 0.70,latLng.longitude);
         MarkerOptions optionsCityLabel = new MarkerOptions().position(labelLatLng)
                 .draggable(false)
                 .icon(displayText(cityLetters.toString()))
@@ -366,7 +363,7 @@ public class MapsActivity extends AppCompatActivity implements OnMapReadyCallbac
         shape = mMap.addPolygon(options);
         shape.setClickable(true);
 
-        // draw the polyline too
+        // draw the polyline
         LatLng[] polyLinePoints = new LatLng[sortedLatLong.size() + 1];
         int index = 0;
         for (LatLng x : sortedLatLong) {
@@ -374,7 +371,7 @@ public class MapsActivity extends AppCompatActivity implements OnMapReadyCallbac
 
             index++;
             if (index == sortedLatLong.size()) {
-                // at last add initial point
+                // add initial point
                 polyLinePoints[index] = sortedLatLong.elementAt(0);
             }
         }
@@ -440,14 +437,10 @@ public class MapsActivity extends AppCompatActivity implements OnMapReadyCallbac
             final Marker finalNearestMarker = nearestMarker;
             AlertDialog.Builder deleteDialog = new AlertDialog.Builder(this);
             deleteDialog
-                    .setTitle("Delete?")
-                    .setMessage("Would you like to remove the marker?")
-
-                    // Specifying a listener allows you to take an action before dismissing the dialog.
-                    // The dialog is automatically dismissed when a dialog button is clicked.
+                    .setTitle("Remove")
+                    .setMessage("You want to remove the marker?")
                     .setPositiveButton(android.R.string.yes, new DialogInterface.OnClickListener() {
                         public void onClick(DialogInterface dialog, int which) {
-                            // Continue with delete operation
                             finalNearestMarker.remove();
                             markersList.remove(finalNearestMarker);
 
@@ -485,9 +478,7 @@ public class MapsActivity extends AppCompatActivity implements OnMapReadyCallbac
     @Override
     public void onMapClick(LatLng latLng) {
         setMarker(latLng);
-
     }
-
     private double distance(double lat1, double lon1, double lat2, double lon2) {
         double theta = lon1 - lon2;
         double dist = Math.sin(deg2rad(lat1))
@@ -500,11 +491,9 @@ public class MapsActivity extends AppCompatActivity implements OnMapReadyCallbac
         dist = dist * 60 * 1.1515;
         return (dist);
     }
-
     private double deg2rad(double deg) {
         return (deg * Math.PI / 180.0);
     }
-
     private double rad2deg(double rad) {
         return (rad * 180.0 / Math.PI);
     }
